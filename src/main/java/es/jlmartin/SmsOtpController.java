@@ -3,10 +3,8 @@ package es.jlmartin;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 
@@ -20,8 +18,11 @@ import java.util.logging.Logger;
 public class SmsOtpController {
 
     Logger LOG = Logger.getLogger(getClass().getName());
+
     public static final int CODE = 1234;
     public static final String TEXTO = "Introduzca el codigo que se le envio por SMS";
+
+
     //http://127.0.0.1:8080/validate?code=12345
     @RequestMapping(value="/validate")//por defecto  get
     public DtoOut validateCode(@RequestParam("code") int codeV) throws Exception {
@@ -40,5 +41,11 @@ public class SmsOtpController {
     @RequestMapping(value="/getText")//por defecto  get
     public DtoOut getText(){
         return new DtoOut(TEXTO);
+    }
+
+    @RequestMapping(value="/generateCode")
+    public boolean generateCode(@RequestParam("token") String token){
+        SmsOtpService smsOtpService = new SmsOtpService(token);
+        return smsOtpService.generateToken(token);
     }
 }

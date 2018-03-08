@@ -65,9 +65,10 @@ public class SmsOtpController {
     }
 
     @RequestMapping("/generatecode")
-    void generateCode(){
+    String generateCode(){
         CODE++;
-    }
+        return "{\"result\" : \"true\"}";
+}
 
     @RequestMapping("/getcode")
     String getCode(){

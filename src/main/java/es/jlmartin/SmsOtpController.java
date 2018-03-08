@@ -3,11 +3,9 @@ package es.jlmartin;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Logger;
 
 
@@ -21,9 +19,9 @@ import java.util.logging.Logger;
 public class SmsOtpController {
 
     Logger LOG = Logger.getLogger(getClass().getName());
-    public static final int CODE = 1234;
+    public static int CODE = 1234;
     public static final String TEXTO = "Introduzca el codigo que se le envio por SMS";
-    private static final Integer MAXINTENTS = 3;
+    private static final Integer MAXATTEMPTS = 3;
 
     HashMap<Integer,Integer> intentos = new HashMap<Integer, Integer>();
     //http://127.0.0.1:8080/validate?code=12345&session=1
@@ -35,25 +33,25 @@ public class SmsOtpController {
             boolean valid = codeV == CODE;
             Integer intents = intentos.get(session);
             if(intents !=null){
-                if(intents<MAXINTENTS){
+                if(intents< MAXATTEMPTS){
                     if(valid){
-                        return new DtoOut("Codigo correcto",valid,intents);
+                        return new DtoOut("Codigo correcto",valid,intents, MAXATTEMPTS);
                     }else{
                         intentos.remove(session);
                         intents++;
                         intentos.put(session,intents);
-                        return new DtoOut("Codigo incorrecto",valid,intents);
+                        return new DtoOut("Codigo incorrecto",valid,intents, MAXATTEMPTS);
                     }
                 }else{
-                    return new DtoOut("Numero de intentos superado",valid,intents);
+                    return new DtoOut("Numero de intentos superado",valid,intents, MAXATTEMPTS);
                 }
             }else{
                 if(valid){
-                    return new DtoOut("Codigo correcto",valid,1);
+                    return new DtoOut("Codigo correcto",valid,1, MAXATTEMPTS);
                 }else{
 
                     intentos.put(session,1);
-                    return new DtoOut("Codigo incorrecto",valid,1);
+                    return new DtoOut("Codigo incorrecto",valid,1, MAXATTEMPTS);
                 }
             }
 
@@ -64,6 +62,16 @@ public class SmsOtpController {
             LOG.info("Saliendo del metodo");
         }
 
+    }
+
+    @RequestMapping("/generatecode")
+    void generateCode(){
+        CODE++;
+    }
+
+    @RequestMapping("/getcode")
+    String getCode(){
+        return String.valueOf(CODE);
     }
 
 }

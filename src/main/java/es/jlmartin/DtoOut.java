@@ -5,12 +5,14 @@ import java.io.Serializable;
 public class DtoOut implements Serializable{
     private Boolean codeV;
     private String message;
-    private Integer intents;
+    private Integer attempts;
+    private Integer maxAttempts;
 
-    public DtoOut(String message,Boolean codeV,Integer intents) {
+    public DtoOut(String message,Boolean codeV,Integer attempts, Integer maxAttempts) {
         this.message = message;
         this.codeV = codeV;
-        this.intents = intents;
+        this.attempts = attempts;
+        this.maxAttempts = maxAttempts;
     }
 
     public Boolean getCodeV() {
@@ -29,11 +31,19 @@ public class DtoOut implements Serializable{
         this.message = message;
     }
 
-    public Integer getIntents() {
-        return intents;
+    public Integer getAttempts() {
+        return attempts;
     }
 
-    public void setIntents(Integer intents) {
-        this.intents = intents;
+    public void setAttempts(Integer attempts) {
+        this.attempts = attempts;
+    }
+
+    public Integer getMaxAttempts() {
+        return maxAttempts;
+    }
+
+    public void setMaxAttempts(Integer maxAttempts) {
+        this.maxAttempts = maxAttempts;
     }
 }

@@ -5,13 +5,12 @@ import java.io.Serializable;
 public class DtoOut implements Serializable{
     private Boolean codeV;
     private String message;
+    private Integer intents;
 
-    public DtoOut(Boolean codeV) {
-        this.codeV = codeV;
-    }
-
-    public DtoOut(String message) {
+    public DtoOut(String message,Boolean codeV,Integer intents) {
         this.message = message;
+        this.codeV = codeV;
+        this.intents = intents;
     }
 
     public Boolean getCodeV() {
@@ -28,5 +27,13 @@ public class DtoOut implements Serializable{
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Integer getIntents() {
+        return intents;
+    }
+
+    public void setIntents(Integer intents) {
+        this.intents = intents;
     }
 }

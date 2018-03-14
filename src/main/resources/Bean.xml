@@ -10,6 +10,19 @@
 
     <context:component-scan base-package="es.jlmartin" />
 
+    <bean id="delegate" class="es.jlmartin.delegate.Delegate">
+        <property name="map">
+            <map key-type="es.jlmartin.delegate.Tipos">
 
+                <entry key="UNO" value-ref="serviceSpanish" />
+                <entry key="DOS" value-ref="serviceItalian" />
+                <entry key="TRES" value-ref="serviceEnglish" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="serviceSpanish" class="es.jlmartin.delegate.ServiceSpanish"></bean>
+    <bean id="serviceItalian" class="es.jlmartin.delegate.ServiceItalian"></bean>
+    <bean id="serviceEnglish" class="es.jlmartin.delegate.ServiceEnglish"></bean>
 
 </beans>

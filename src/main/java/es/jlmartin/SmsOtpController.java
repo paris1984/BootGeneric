@@ -1,6 +1,11 @@
 
 package es.jlmartin;
 
+import es.jlmartin.delegate.Delegate;
+import es.jlmartin.delegate.Service;
+import es.jlmartin.delegate.Tipos;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,11 +28,18 @@ public class SmsOtpController {
     public static final String TEXTO = "Introduzca el codigo que se le envio por SMS";
     private static final Integer MAXATTEMPTS = 3;
 
+    @Autowired
+    @Qualifier("delegate")
+    Delegate<Tipos,Service> delegate;
+
     HashMap<Integer,Integer> intentos = new HashMap<Integer, Integer>();
     //http://127.0.0.1:8080/validate?code=12345&session=1
     @RequestMapping(value="/validate")//por defecto  get
     public DtoOut validateCode(@RequestParam("code") int codeV,@RequestParam("session") int session) throws Exception {
         try {
+
+            delegate.getDelegate(Tipos.DOS).saludosEnDiferentesIdiomas();
+
             LOG.info("Entrando a validar con codigo: "+codeV+" de la sesion: "+session);
             String message = "";
             boolean valid = codeV == CODE;
